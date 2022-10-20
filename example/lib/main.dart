@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: ShowCaseWidget(
           onStart: (index, key) {
-            log('onStart: $index, $key');
+            // log('onStart: $index, $key');
           },
           onComplete: (index, key) {
-            log('onComplete: $index, $key');
+            // log('onComplete: $index, $key');
             if (index == 4) {
               SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle.light.copyWith(
@@ -146,6 +146,32 @@ class _MailPageState extends State<MailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultAction = ShowCaseDefaultActions(
+      key: GlobalKey(),
+      showCaseViewContext: context,
+      previous: ActionButtonConfig(
+        buttonVisible: true,
+        icon: Image.asset(
+          'assets/left.png',
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      next: ActionButtonConfig(
+        buttonVisible: true,
+        icon: Image.asset(
+          'assets/right.png',
+          color: Theme.of(context).primaryColor,
+        ),
+        textDirection: TextDirection.rtl,
+      ),
+      stop: ActionButtonConfig(
+        buttonVisible: true,
+        icon: Image.asset(
+          'assets/close.png',
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -224,6 +250,7 @@ class _MailPageState extends State<MailPage> {
                       showcaseBackgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       shapeBorder: const CircleBorder(),
+                      actions: defaultAction,
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         width: 45,
@@ -277,6 +304,7 @@ class _MailPageState extends State<MailPage> {
       floatingActionButton: Showcase(
         key: _five,
         title: 'Compose Mail',
+        actions: defaultAction,
         description: 'Click here to compose mail',
         shapeBorder: const CircleBorder(),
         child: FloatingActionButton(
@@ -313,26 +341,27 @@ class _MailPageState extends State<MailPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Showcase(
-            key: key,
-            description: 'Tap to check mail',
-            disposeOnTap: true,
-            onTargetClick: () {
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => const Detail(),
-                ),
-              ).then((_) {
-                setState(() {
-                  ShowCaseWidget.of(context).startShowCase([_four, _five]);
-                });
+          key: key,
+          description: 'Tap to check mail',
+          disposeOnTap: true,
+          onTargetClick: () {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (_) => const Detail(),
+              ),
+            ).then((_) {
+              setState(() {
+                ShowCaseWidget.of(context).startShowCase([_four, _five]);
               });
-            },
-            child: MailTile(
-              mail: mail,
-              showCaseKey: _four,
-              showCaseDetail: showCaseDetail,
-            )),
+            });
+          },
+          child: MailTile(
+            mail: mail,
+            showCaseKey: _four,
+            showCaseDetail: showCaseDetail,
+          ),
+        ),
       ),
     );
   }

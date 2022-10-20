@@ -24,6 +24,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../showcaseview.dart';
 import 'get_position.dart';
 import 'measure_size.dart';
 
@@ -48,6 +49,8 @@ class ToolTipWidget extends StatefulWidget {
   final Duration animationDuration;
   final bool disableAnimation;
   final BorderRadius? borderRadius;
+  final Widget? actions;
+  final ActionsSettings? actionSettings;
 
   const ToolTipWidget({
     Key? key,
@@ -69,6 +72,8 @@ class ToolTipWidget extends StatefulWidget {
     this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
     required this.disableAnimation,
     required this.borderRadius,
+    this.actions,
+    this.actionSettings,
   }) : super(key: key);
 
   @override
@@ -78,7 +83,7 @@ class ToolTipWidget extends StatefulWidget {
 class _ToolTipWidgetState extends State<ToolTipWidget>
     with SingleTickerProviderStateMixin {
   Offset? position;
-
+  final GlobalKey _actionKey = GlobalKey();
   bool isArrowUp = false;
 
   late final AnimationController _parentController;
@@ -174,9 +179,17 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
     return space;
   }
 
+  final ValueNotifier<double?> _actionWidth = ValueNotifier<double?>(-1);
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _actionWidth.value = _actionKey.currentContext?.size?.width;
+      setState(() {
+
+      });
+    });
     _parentController = AnimationController(
       duration: widget.animationDuration,
       vsync: this,
@@ -216,6 +229,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
 
   @override
   Widget build(BuildContext context) {
+    print('Build ${_actionWidth.value} ${tooltipWidth}');
     position = widget.offset;
     final contentOrientation = findPositionForContent(position!);
     final contentOffsetMultiplier = contentOrientation == "BELOW" ? 1.0 : -1.0;
@@ -299,8 +313,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                         bottom: isArrowUp ? 0 : arrowHeight - 1,
                       ),
                       child: ClipRRect(
-                        borderRadius:
-                            widget.borderRadius ?? BorderRadius.circular(8.0),
+                        borderRadius: widget.borderRadius ??
+                            BorderRadius.circular(8.0),
                         child: GestureDetector(
                           onTap: widget.onTooltipTap,
                           child: Container(
@@ -324,7 +338,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                                     .headline6!
                                                     .merge(
                                                       TextStyle(
-                                                        color: widget.textColor,
+                                                        color: widget
+                                                            .textColor,
                                                       ),
                                                     ),
                                           )
@@ -341,8 +356,19 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                                 ),
                                               ),
                                     ),
+                                    if (widget.actions != null)
+                                      Container(
+                                        margin: widget.actionSettings?.containerPadding ??
+                                            EdgeInsets.zero,
+                                        color: widget.actionSettings?.containerColor,
+                                        height: widget.actionSettings?.containerHeight,
+                                        // width: (_actionWidth.value ?? 0) > tooltipWidth
+                                        //     ? _actionWidth.value
+                                        //     : tooltipWidth,
+                                        child: widget.actions!,
+                                      ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           ),

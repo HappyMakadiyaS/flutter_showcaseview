@@ -26,6 +26,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'actions_container_config.dart';
 import 'extension.dart';
 import 'get_position.dart';
 import 'layout_overlays.dart';
@@ -69,6 +70,8 @@ class Showcase extends StatefulWidget {
   /// disposeOnTap parameter will not work
   ///
   final bool disableDefaultTargetGestures;
+  final Widget? actions;
+  final ActionsSettings actionSettings;
 
   /// Defines blur value.
   /// This will blur the background while displaying showcase.
@@ -107,6 +110,8 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.tipBorderRadius,
     this.disableDefaultTargetGestures = false,
+    this.actions,
+    this.actionSettings = const ActionsSettings(),
   })  : height = null,
         width = null,
         container = null,
@@ -152,6 +157,8 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.tipBorderRadius,
     this.disableDefaultTargetGestures = false,
+    this.actions,
+    this.actionSettings = const ActionsSettings(),
   })  : showArrow = false,
         onToolTipClick = null,
         assert(overlayOpacity >= 0.0 && overlayOpacity <= 1.0,
@@ -354,6 +361,8 @@ class _ShowcaseState extends State<Showcase> {
                       showCaseWidgetState.disableAnimation,
                   animationDuration: widget.animationDuration,
                   borderRadius: widget.tipBorderRadius,
+                  actions: widget.actions,
+                  actionSettings: widget.actionSettings,
                 ),
             ],
           )
