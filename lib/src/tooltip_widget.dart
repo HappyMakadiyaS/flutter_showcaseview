@@ -40,16 +40,16 @@ class ToolTipWidget extends StatefulWidget {
   final TextStyle? titleTextStyle;
   final TextStyle? descTextStyle;
   final Widget? container;
-  final Color? tooltipColor;
+  final Color? tooltipBackgroundColor;
   final Color? textColor;
   final bool showArrow;
   final double? contentHeight;
   final double? contentWidth;
   final VoidCallback? onTooltipTap;
-  final EdgeInsets? contentPadding;
+  final EdgeInsets? tooltipPadding;
   final Duration animationDuration;
   final bool disableAnimation;
-  final BorderRadius? borderRadius;
+  final BorderRadius? tooltipBorderRadius;
 
   const ToolTipWidget({
     Key? key,
@@ -62,7 +62,7 @@ class ToolTipWidget extends StatefulWidget {
     required this.titleTextStyle,
     required this.descTextStyle,
     required this.container,
-    required this.tooltipColor,
+    required this.tooltipBackgroundColor,
     required this.textColor,
     required this.showArrow,
     required this.contentHeight,
@@ -70,9 +70,9 @@ class ToolTipWidget extends StatefulWidget {
     required this.onTooltipTap,
     required this.animationDuration,
     required this.descriptionAlignment,
-    this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
+    this.tooltipPadding = const EdgeInsets.symmetric(vertical: 8),
     required this.disableAnimation,
-    required this.borderRadius,
+    required this.tooltipBorderRadius,
   }) : super(key: key);
 
   @override
@@ -126,13 +126,13 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
     final titleLength = widget.title == null
         ? 0
         : _textSize(widget.title!, titleStyle).width +
-            widget.contentPadding!.right +
-            widget.contentPadding!.left;
+            widget.tooltipPadding!.right +
+            widget.tooltipPadding!.left;
     final descriptionLength = widget.description == null
         ? 0
         : (_textSize(widget.description!, descriptionStyle).width +
-            widget.contentPadding!.right +
-            widget.contentPadding!.left);
+            widget.tooltipPadding!.right +
+            widget.tooltipPadding!.left);
     var maxTextWidth = max(titleLength, descriptionLength);
     if (maxTextWidth > widget.screenSize!.width - tooltipScreenEdgePadding) {
       tooltipWidth = widget.screenSize!.width - tooltipScreenEdgePadding;
@@ -286,7 +286,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                             : null,
                         child: CustomPaint(
                           painter: _Arrow(
-                            strokeColor: widget.tooltipColor!,
+                            strokeColor: widget.tooltipBackgroundColor!,
                             strokeWidth: 10,
                             paintingStyle: PaintingStyle.fill,
                             isUpArrow: isArrowUp,
@@ -303,14 +303,14 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                         bottom: isArrowUp ? 0 : arrowHeight - 1,
                       ),
                       child: ClipRRect(
-                        borderRadius:
-                            widget.borderRadius ?? BorderRadius.circular(8.0),
+                        borderRadius: widget.tooltipBorderRadius ??
+                            BorderRadius.circular(8.0),
                         child: GestureDetector(
                           onTap: widget.onTooltipTap,
                           child: Container(
                             width: tooltipWidth,
-                            padding: widget.contentPadding,
-                            color: widget.tooltipColor,
+                            padding: widget.tooltipPadding,
+                            color: widget.tooltipBackgroundColor,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[

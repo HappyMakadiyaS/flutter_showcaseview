@@ -11,7 +11,35 @@ A Flutter package allows you to Showcase/Highlight your widgets step by step.
 
 ![The example app running in Android](https://github.com/simformsolutions/flutter_showcaseview/blob/master/preview/showcaseview.gif)
 
+## Migration guide for release 2.0
+Release 2.0 contains breaking changes in terms of renaming some of the properties from `ShowCaseWidget` and `Showcase` class which is listed below in the table.
 
+<table>
+<tr><th>Before</th><th>After</th></tr>
+<tr><td>autoPlayLockEnable</td><td>enableAutoPlayLock</td></tr>
+<tr><td>shapeBorder</td><td>targetShapeBorder</td></tr>
+<tr><td>showcaseBackgroundColor</td><td>tooltipBackgroundColor</td></tr>
+<tr><td>contentPadding</td><td>tooltipPadding</td></tr>
+<tr><td>overlayPadding</td><td>targetPadding</td></tr>
+<tr><td>radius</td><td>targetBorderRadius</td></tr>
+<tr><td>tipBorderRadius</td><td>tooltipBorderRadius</td></tr>
+</table>
+
+Unused parameters of `Showcase.withWidget()` which are not impacting view of showcase widget that has been removed from parameter list of the named constructor `Showcase.withWidget()`.
+
+The list of parameters are:
+<ul>
+<li>title</li>
+<li>titleAlignment</li>
+<li>titleTextStyle</li>
+<li>description</li>
+<li>descriptionAlignment</li>
+<li>descTextStyle</li>
+<li>textColor</li>
+<li>tooltipBackgroundColor</li>
+<li>tooltipBorderRadius</li>
+<li>tooltipPadding</li>
+</ul>
 
 ## Installing
 
@@ -67,13 +95,13 @@ Showcase(
   titleAlignment: TextAlign.start,
   descriptionAlignment: TextAlign.start,
   disableAnimation: true,
-  shapeBorder: CircleBorder(),
-  radius: BorderRadius.all(Radius.circular(40)),
+  targetShapeBorder: CircleBorder(),
+  targetBorderRadius: BorderRadius.all(Radius.circular(40)),
   showArrow: false,
-  tipBorderRadius: BorderRadius.all(Radius.circular(8)),
-  overlayPadding: EdgeInsets.all(5),
+  tooltipBorderRadius: BorderRadius.all(Radius.circular(8)),
+  targetPadding: EdgeInsets.all(5),
   slideDuration: Duration(milliseconds: 1500),
-  tooltipColor: Colors.blueGrey,
+  tooltipBackgroundColor: Colors.blueGrey,
   blurValue: 2,
   disableDefaultTargetGestures: true,
   child: ...,
@@ -85,9 +113,9 @@ Showcase(
 ```dart
 Showcase.withWidget(
   key: _three,
-  cHeight: 80,
-  cWidth: 140,
-  shapeBorder: CircleBorder(),
+  height: 80,
+  width: 140,
+  targetShapeBorder: CircleBorder(),
   container: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -215,12 +243,10 @@ ShowCaseWidget(
      <td align="center"><a href="https://github.com/ShwetaChauhan18"><img src="https://avatars.githubusercontent.com/u/34509457" width="80px;" alt=""/><br /><sub><b>Shweta Chauhan</b></sub></a></td>
      <td align="center"><a href="https://github.com/MehulKK"><img src="https://avatars.githubusercontent.com/u/60209725?s=100" width="100px;" alt=""/><br /><sub><b>Mehul Kabaria</b></sub></a></td>
      <td align="center"><a href="https://github.com/DhavalRKansara"><img src="https://avatars.githubusercontent.com/u/44993081?v=4" width="100px;" alt=""/><br /><sub><b>Dhaval Kansara</b></sub></a></td>
+     <td align="center"><a href="https://github.com/HappyMakadiyaS"><img src="https://avatars.githubusercontent.com/u/97177197?v=4" width="100px;" alt=""/><br /><sub><b>Happy Makadiya</b></sub></a></td>
   </tr>
 </table>
 
-## Note
-
-We have updated license of flutter_showcaseview from BSD 2-Clause "Simplified" to MIT.
 
 ## License
 
