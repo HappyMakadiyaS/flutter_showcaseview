@@ -2,11 +2,12 @@ import 'dart:developer';
 
 import 'package:example/detailscreen.dart';
 import 'package:example/helper.dart';
+import 'package:example/test_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const TestWidget());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
